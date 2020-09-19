@@ -8,4 +8,4 @@ In addition to providing many convenience methods, using the Path type provides 
 myPath := Path("/foo/bar/baz.boo")
 ```
 
-[More documentation](https://godoc.org/github.com/gershwinlabs/pathlib)
+[More docs on pkg.go.dev](https://pkg.go.dev/github.com/gershwinlabs/pathlib)
