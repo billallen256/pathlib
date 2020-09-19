@@ -9,3 +9,5 @@ myPath := Path("/foo/bar/baz.boo")
 ```
 
 [More docs on pkg.go.dev](https://pkg.go.dev/github.com/gershwinlabs/pathlib)
+
+[Package report card](https://goreportcard.com/report/github.com/gershwinlabs/pathlib)
