@@ -188,8 +188,8 @@ func TestParent(t *testing.T) {
 func TestName(t *testing.T) {
 	tests := map[string]string{
 		Path("/var/log/messages").Name(): "messages",
-		Path("foo").Name(): "foo",
-		Path("foo/bar.baz").Name(): "bar.baz",
+		Path("foo").Name():               "foo",
+		Path("foo/bar.baz").Name():       "bar.baz",
 	}
 
 	for test, target := range tests {
