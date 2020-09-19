@@ -131,7 +131,9 @@ func TestWithSuffix(t *testing.T) {
 	suffixTest("foo.bar", "baz", "foo.baz", t)
 	suffixTest("foo", "baz", "foo.baz", t)
 	suffixTest("/foo/bar/baz.a", "baz", "/foo/bar/baz.baz", t)
+	suffixTest("foo/bar/baz.a", "baz", "foo/bar/baz.baz", t)
 	suffixTest("/foo/bar.a/baz.zip", "", "/foo/bar.a/baz", t)
+	suffixTest("foo/bar.a/baz.zip", "", "foo/bar.a/baz", t)
 }
 
 func TestTouch(t *testing.T) {
@@ -169,6 +171,30 @@ func TestJoinPath(t *testing.T) {
 	for test, target := range tests {
 		if test != target {
 			t.Errorf("JoinPath failed: %s != %s", test, target)
+		}
+	}
+}
+
+func TestParent(t *testing.T) {
+	p := Path("/var/log")
+	parent := p.Parent()
+	target := Path("/var")
+
+	if parent != target {
+		t.Errorf("Parent failed: %s != %s", parent, target)
+	}
+}
+
+func TestName(t *testing.T) {
+	tests := map[string]string{
+		Path("/var/log/messages").Name(): "messages",
+		Path("foo").Name(): "foo",
+		Path("foo/bar.baz").Name(): "bar.baz",
+	}
+
+	for test, target := range tests {
+		if test != target {
+			t.Errorf("Name failed: %s != %s", test, target)
 		}
 	}
 }
