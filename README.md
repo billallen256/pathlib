@@ -7,3 +7,5 @@ In addition to providing many convenience methods, using the Path type provides 
 ```go
 myPath := Path("/foo/bar/baz.boo")
 ```
+
+[More documentation](https://godoc.org/github.com/gershwinlabs/pathlib)
