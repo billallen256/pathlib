@@ -1,6 +1,7 @@
 package pathlib
 
 import (
+	"fmt"
 	"math/rand"
 	"strings"
 	"testing"
@@ -196,5 +197,43 @@ func TestName(t *testing.T) {
 		if test != target {
 			t.Errorf("Name failed: %s != %s", test, target)
 		}
+	}
+}
+
+func TestMkdir(t *testing.T) {
+	p := Path(fmt.Sprintf("/tmp/pathlib-%s", randomString(20)))
+	err := p.Mkdir()
+
+	if err != nil {
+		t.Errorf(err.Error())
+	}
+
+	if !p.IsDir() {
+		t.Errorf("%s is not a directory", p)
+	}
+
+	err = p.Rmdir()
+
+	if err != nil {
+		t.Errorf(err.Error())
+	}
+}
+
+func TestMkdirAll(t *testing.T) {
+	p := Path(fmt.Sprintf("/tmp/pathlib-%s/foo/bar/baz/", randomString(20)))
+	err := p.Mkdir()
+
+	if err != nil {
+		t.Errorf(err.Error())
+	}
+
+	if !p.IsDir() {
+		t.Errorf("%s is not a directory", p)
+	}
+
+	err = p.RmdirRecursive()
+
+	if err != nil {
+		t.Errorf(err.Error())
 	}
 }

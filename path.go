@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+// Path type alias
 type Path string
 
 // Exists returns true if the Path exists.
@@ -230,29 +231,19 @@ func (p Path) Name() string {
 	return filepath.Base(string(p))
 }
 
-// Parent returns the parent (../) Path.
+// Parent returns the last directory in the Path. For a file, it returns the directory that the file is in.  For a directory, it just returns the directory, not the directory above it.
 func (p Path) Parent() Path {
 	return Path(filepath.Dir(string(p)))
 }
 
-// Mkdir creates the directory Path.
+// Mkdir creates the directory Path, including any parent directories that
+// need to be created along the way.
 func (p Path) Mkdir() error {
 	if p.Exists() {
 		return fmt.Errorf("Cannot make directory %s because it already exists", p)
 	}
 
-	parent := p.Parent()
-	perms, err := parent.Permissions()
-
-	if err != nil {
-		return err
-	}
-
-	// Copy source permissions, making sure that the destination is
-	// at least readable, writable, and executable
-	perms = perms | 0700
-
-	return os.Mkdir(string(p), perms)
+	return os.MkdirAll(string(p), 0755)  // note umask will be applied
 }
 
 // WriteBytes writes the bytes to the Path.
