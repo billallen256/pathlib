@@ -243,7 +243,7 @@ func (p Path) Mkdir() error {
 		return fmt.Errorf("Cannot make directory %s because it already exists", p)
 	}
 
-	return os.MkdirAll(string(p), 0755)  // note umask will be applied
+	return os.MkdirAll(string(p), 0755) // note umask will be applied
 }
 
 // WriteBytes writes the bytes to the Path.
@@ -327,4 +327,15 @@ func (p Path) OpenWithPermissions(mode string, perms os.FileMode) (*os.File, err
 // Open opens the Path with the specified mode with 0755 permissions.  If the Path does not exist, it creates it.
 func (p Path) Open(mode string) (*os.File, error) {
 	return p.OpenWithPermissions(mode, 0755)
+}
+
+// RelativeTo returns how this path is relative to the input Path, if at all.
+func (p Path) RelativeTo(base Path) (Path, error) {
+	relPath, err := filepath.Rel(string(base), string(p))
+
+	if err != nil {
+		return Path(""), err
+	}
+
+	return Path(relPath), nil
 }

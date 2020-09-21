@@ -237,3 +237,26 @@ func TestMkdirAll(t *testing.T) {
 		t.Errorf(err.Error())
 	}
 }
+
+func TestRelativeTo(t *testing.T) {
+	p := Path("/foo/bar/baz")
+
+	tests := map[Path]Path{
+		Path("/"):            Path("foo/bar/baz"),
+		Path("/foo"):         Path("bar/baz"),
+		Path("/foo/bar"):     Path("baz"),
+		Path("/foo/bar/baz"): Path("."),
+	}
+
+	for basePath, expectedRelPath := range tests {
+		relPath, err := p.RelativeTo(basePath)
+
+		if err != nil {
+			t.Errorf(err.Error())
+		}
+
+		if relPath != expectedRelPath {
+			t.Errorf("Relative path %s != expected relative path %s", relPath, expectedRelPath)
+		}
+	}
+}
